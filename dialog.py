@@ -108,6 +108,7 @@ def login(tui_ctx: Console, api: ChaoXingAPI):
             else:
                 tui_ctx.print("[red]登录失败")
 
+
 def relogin(tui_ctx: Console, session: SessionModule, api: ChaoXingAPI):
     "重新登录账号"
     api.session.ck_clear()
@@ -125,6 +126,7 @@ def relogin(tui_ctx: Console, session: SessionModule, api: ChaoXingAPI):
             tui_ctx.print("[red]登录失败, 请手动登录")
     else:
         tui_ctx.print("[red]找不到密码, 无法重登")
+
 
 def select_session(tui_ctx: Console, sessions: list[SessionModule], api: ChaoXingAPI):
     "交互-选择会话"
@@ -163,6 +165,7 @@ def select_session(tui_ctx: Console, sessions: list[SessionModule], api: ChaoXin
                         continue
                 return
 
+
 def select_class(tui_ctx: Console, classes: ClassContainer) -> str:
     "交互-选择课程"
     tb = Table("序号", "课程名", "老师名", "课程id", "课程状态", title="所学的课程", border_style="blue")
@@ -176,12 +179,15 @@ def select_class(tui_ctx: Console, classes: ClassContainer) -> str:
         )
     while True:
         tui_ctx.print(tb)
-        command = Prompt.ask("请输入欲完成的课程 ([yellow]序号/名称/id[/]), 序号前加[yellow]\"EXAM|\"[/]进入考试模式, 输入 [yellow]q[/] 退出", console=tui_ctx)
+        command = Prompt.ask(
+            "请输入欲完成的课程 ([yellow]序号/名称/id[/]), 序号前加[yellow]\"EXAM|\"[/]进入考试模式, 输入 [yellow]q[/] 退出",
+            console=tui_ctx)
         tui_ctx.print("")
         if command == "q":
             sys.exit()
         else:
             return command
+
 
 def select_exam(tui_ctx: Console, exams: list[ClassExamModule], api: ChaoXingAPI) -> tuple[ExamDto, bool]:
     """交互-选择考试
@@ -232,4 +238,3 @@ def select_exam(tui_ctx: Console, exams: list[ClassExamModule], api: ChaoXingAPI
                 enc_task=exams[exam_index].enc_task
             )
             return exam, export
-    

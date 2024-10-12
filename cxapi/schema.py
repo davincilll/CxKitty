@@ -87,6 +87,7 @@ class ClassModule:
     "课程数据模型"
     course_id: int  # 课程 id
     class_id: int  # 班级 id
+    # course person id 这个和uid不一样 userId 236299585 和 puid一样
     cpi: int
     key: int
     name: str  # 课程名
