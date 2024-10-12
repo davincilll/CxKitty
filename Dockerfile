@@ -1,11 +1,12 @@
-FROM python:3.10
+FROM im.myhk.fun/dockerproxy/library/python:3.11.2
 
 ENV TZ="Asia/Shanghai"
 
 # 安装必要组件
-RUN apt update && \
-    apt-get -y install libgl1-mesa-glx && \
-    pip install poetry
+RUN pip install poetry && \
+    apt-get update && \
+    apt-get -y install libgl1-mesa-glx
+#    pip install --upgrade pip setuptools
 
 # 安装依赖
 WORKDIR /app

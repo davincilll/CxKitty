@@ -11,6 +11,50 @@ class AccountSex(Enum):
     女 = 0
 
 
+class ClassStatus(Enum):
+    "课程状态"
+    进行中 = 0
+    已结课 = 1
+
+
+class QuestionType(Enum):
+    "题目类型枚举"
+    单选题 = 0
+    多选题 = 1
+    填空题 = 2
+    判断题 = 3
+    简答题 = 4
+    名词解释 = 5
+    论述题 = 6
+    计算题 = 7
+    其它 = 8
+    分录题 = 9
+    资料题 = 10
+    连线题 = 11
+    排序题 = 13
+    完型填空 = 14
+    阅读理解 = 15
+    口语题 = 18
+    听力题 = 19
+    共用选项题 = 20
+    测评题 = 21
+
+
+class QuestionsExportType(Enum):
+    """试题导出类型"""
+
+    Exam = 0  # 试卷
+    Work = 1  # 作业
+    Mistakes = 2  # 错题
+
+
+class ExamStatus(Enum):
+    "考试完成状态"
+    未开始 = "未开始"
+    未交 = "未交"
+    已完成 = "已完成"
+
+
 @dataclass
 class AccountInfo:
     "账号个人信息"
@@ -25,10 +69,17 @@ class AccountInfo:
         return f"AccInfo(puid={self.puid} name='{self.name}' sex={self.sex} phone={self.phone} school='{self.school}' stu_id={self.stu_id})"
 
 
-class ClassStatus(Enum):
-    "课程状态"
-    进行中 = 0
-    已结课 = 1
+@dataclass
+class ClassExamModule:
+    "课程考试数据模型"
+    exam_id: int  # 考试 id
+    course_id: int  # 课程 id
+    class_id: int  # 班级 id
+    cpi: int
+    enc_task: int  # 考试校验 key
+    name: str  # 考试标题
+    status: ExamStatus  # 考试状态
+    expire_time: str  # 剩余时间
 
 
 @dataclass
@@ -57,29 +108,6 @@ class ChapterModel:
     point_finished: int  # 已完成任务点
 
 
-class QuestionType(Enum):
-    "题目类型枚举"
-    单选题 = 0
-    多选题 = 1
-    填空题 = 2
-    判断题 = 3
-    简答题 = 4
-    名词解释 = 5
-    论述题 = 6
-    计算题 = 7
-    其它 = 8
-    分录题 = 9
-    资料题 = 10
-    连线题 = 11
-    排序题 = 13
-    完型填空 = 14
-    阅读理解 = 15
-    口语题 = 18
-    听力题 = 19
-    共用选项题 = 20
-    测评题 = 21
-
-
 @dataclass_json
 @dataclass
 class QuestionModel:
@@ -91,14 +119,6 @@ class QuestionModel:
     answer: str | list[str] | bool = None  # 答案
 
 
-class QuestionsExportType(Enum):
-    """试题导出类型"""
-
-    Exam = 0  # 试卷
-    Work = 1  # 作业
-    Mistakes = 2  # 错题
-
-
 @dataclass_json
 @dataclass
 class QuestionsExportSchema:
@@ -107,23 +127,3 @@ class QuestionsExportSchema:
     title: str  # 试题名
     type: QuestionsExportType = field(metadata=config(encoder=lambda x: x.value))  # 导出类型
     questions: list[QuestionModel]  # 题目列表
-
-
-class ExamStatus(Enum):
-    "考试完成状态"
-    未开始 = "未开始"
-    未交 = "未交"
-    已完成 = "已完成"
-
-
-@dataclass
-class ClassExamModule:
-    "课程考试数据模型"
-    exam_id: int  # 考试 id
-    course_id: int  # 课程 id
-    class_id: int  # 班级 id
-    cpi: int
-    enc_task: int  # 考试校验 key
-    name: str  # 考试标题
-    status: ExamStatus  # 考试状态
-    expire_time: str  # 剩余时间

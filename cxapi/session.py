@@ -15,11 +15,10 @@ from requests.sessions import Session
 from yarl import URL
 
 from logger import Logger
-
 from .exception import HandleCaptchaError
+from .face_detection import FaceDetectionDto
 from .schema import AccountInfo
 from .utils import get_ua
-from .face_detection import FaceDetectionDto
 
 # 接口-获取验证码图片
 API_CAPTCHA_IMG = "https://mooc1-api.chaoxing.com/processVerifyPng.ac"
@@ -80,8 +79,8 @@ def get_special_type(resp: Response) -> SpecialPageType:
         html = BeautifulSoup(resp.text, "lxml")
         if e := html.select_one("body.grayBg script"):
             if re.search(
-                r"var url = \S+ \+ _CP_ \+ \"/knowledge/startface",
-                e.text,
+                    r"var url = \S+ \+ _CP_ \+ \"/knowledge/startface",
+                    e.text,
             ):
                 return SpecialPageType.FACE
     return SpecialPageType.NORMAL
@@ -93,6 +92,7 @@ class SessionWraper(Session):
     """
 
     logger: Logger  # 日志记录器
+    # 日志记录器
     acc: AccountInfo  # 用户账号信息
     face_detection: FaceDetectionDto  # 人脸识别 Dto
     __cb_resolve_captcha_after: Callable[[int], None]  # 验证码识别前回调
@@ -105,11 +105,11 @@ class SessionWraper(Session):
     __retry_delay: float  # 连接重试间隔
 
     def __init__(
-        self,
-        captcha_max_retry: int = 6,
-        request_max_retry: int = 5,
-        retry_delay: float = 5.0,
-        **kwargs,
+            self,
+            captcha_max_retry: int = 6,
+            request_max_retry: int = 5,
+            retry_delay: float = 5.0,
+            **kwargs,
     ) -> None:
         """Constructor
         Args:
@@ -267,9 +267,9 @@ class SessionWraper(Session):
         class_id = face_url.query.get("clazzid")
         # 尝试从原始url中提取courseId，防止人脸识别重定向页面中不包含该courseId
         course_id = (
-            face_url.query.get("courseid")
-            or orig_url.query.get("courseid")
-            or orig_url.query.get("courseId")
+                face_url.query.get("courseid")
+                or orig_url.query.get("courseid")
+                or orig_url.query.get("courseId")
         )
         knowledge_id = face_url.query.get("knowledgeid")
         cpi = face_url.query.get("cpi")

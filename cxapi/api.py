@@ -3,13 +3,12 @@ from hashlib import md5
 from os import PathLike
 from pathlib import Path
 
-from bs4 import BeautifulSoup
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
+from bs4 import BeautifulSoup
 from yarl import URL
 
 from logger import Logger, set_log_filename
-
 from .classes import ClassContainer
 from .exception import APIError
 from .schema import AccountInfo, AccountSex
@@ -41,9 +40,9 @@ API_FACE_IMAGE = "https://passport2-api.chaoxing.com/api/getUserFaceid"
 URL_QRLOGIN = "https://passport2.chaoxing.com/toauthlogin"
 
 
+# 一个账号应该就有一个api
 class ChaoXingAPI:
     """学习通根接口类"""
-
     logger: Logger  # 日志记录器
     session: SessionWraper  # HTTP 会话封装
     # 二维码登录用
@@ -72,7 +71,7 @@ class ChaoXingAPI:
             phone: 手机号
             passwd: 登录密码
         """
-        KEY = b"u2oh6Vu^HWe4_AES"
+        KEY = b"u2oh6V^HWe4_AES"
         # 开始加密参数
         cryptor = AES.new(KEY, AES.MODE_CBC, KEY)
         phone = base64.b64encode(cryptor.encrypt(pad(phone.encode(), 16))).decode()

@@ -4,6 +4,7 @@ import config
 
 log_file_name = ""
 
+
 def set_log_filename(phone: str):
     """设置日志文件名
     Args:
@@ -12,9 +13,11 @@ def set_log_filename(phone: str):
     global log_file_name
     log_file_name = phone
 
+
 class Logger:
     """日志记录类
     """
+
     def __init__(self, name: str, level=logging.DEBUG, fmt=None) -> None:
         """constructor
         Args:
@@ -27,14 +30,14 @@ class Logger:
             self.fmt = "%(asctime)s [%(name)s] %(levelname)s -> %(message)s"
         else:
             self.fmt = fmt
-        
+
         if not config.LOGS_PATH.is_dir():
             config.LOGS_PATH.mkdir(parents=True)
         self.logger = logging.getLogger(name)
         self.logger.setLevel(self.level)
-        
+
         self.load_handler()
-    
+
     def load_handler(self):
         """重载日志记录器实现
         """
@@ -76,5 +79,6 @@ class Logger:
         """
         self.load_handler()
         self.logger.error(msg, exc_info=exc_info)
+
 
 __all__ = ["set_log_filename", "Logger"]

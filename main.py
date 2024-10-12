@@ -29,11 +29,11 @@ from resolver import DocumetResolver, MediaPlayResolver, QuestionResolver
 from utils import __version__, ck2dict, sessions_load
 
 api = ChaoXingAPI()
+# 这个要进行更换
 console = Console(height=config.TUI_MAX_HEIGHT)
 logger = Logger("Main")
-
+# rich库不管
 install(console=console, show_locals=False)
-
 layout = Layout()
 lay_left = Layout(name="Left")
 lay_right = Layout(name="Right", size=60)
@@ -328,7 +328,7 @@ def fuck_exam_worker(exam: ExamDto, export=False):
 
 
 if __name__ == "__main__":
-    dialog.logo(console)
+    # 地区各个会话
     acc_sessions = sessions_load()
     # 存在至少一个会话存档
     if acc_sessions:
@@ -347,9 +347,11 @@ if __name__ == "__main__":
     # 会话存档为空
     else:
         console.print("[yellow]会话存档为空, 请登录账号")
+        # 进入登录流程
         dialog.login(console, api)
     logger.info("\n-----*任务开始执行*-----")
     logger.info(f"Ver. {__version__}")
+    # 显示账号信息，调用api
     dialog.accinfo(console, api)
     try:
         # 拉取预先上传的人脸图片
